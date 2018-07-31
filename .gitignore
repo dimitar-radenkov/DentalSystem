@@ -1,0 +1,10 @@
+/DentalSystem.Common/bin
+/DentalSystem.Common/obj
+/.vs
+/DentalSystem.Data/bin
+/DentalSystem.Data/obj
+/DentalSystem.Models/obj
+/DentalSystem.Models/bin
+/DentalSystem.Services/obj
+/DentalSystem.Services/bin
+/DentalSystem.Web
