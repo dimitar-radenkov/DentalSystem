@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyVersion>1.18212.31.0</AssemblyVersion>
+    <FileVersion>1.18212.31.0</FileVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Identity.Stores">
+      <HintPath>C:\Program Files (x86)\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.identity.stores\2.1.1\lib\netstandard2.0\Microsoft.Extensions.Identity.Stores.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>
