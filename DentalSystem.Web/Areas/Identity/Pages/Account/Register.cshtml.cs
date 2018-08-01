@@ -1,8 +1,6 @@
 ﻿namespace DentalSystem.Web.Areas.Identity.Pages.Account
 {
-    using System.Text.Encodings.Web;
     using System.Threading.Tasks;
-    using DentalSystem.Models;
     using DentalSystem.Web.Areas.Identity.Models.BindingModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;

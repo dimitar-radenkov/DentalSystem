@@ -1,0 +1,44 @@
+﻿@model IEnumerable<DoctorViewModel>
+
+@{
+    ViewData["Title"] = "All Doctors";
+}
+
+<h2>All Doctors</h2>
+
+<p>
+    <a asp-area="Administrator" asp-action="Add" class="btn btn-default">Add Doctor</a>
+</p>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-6">
+            <div class="card">
+                <img class="card-img-top" width="300" height="200" src="/Administrator/Doctors/ViewImage/@item.Id" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>@item.Name</strong></h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <span class="glyphicon glyphicon-flag"></span>
+                        @item.Address
+                    </li>
+                    <li class="list-group-item">
+                        <span class="glyphicon glyphicon-phone"></span>
+                        @item.Phone
+                    </li>
+                    <li class="list-group-item">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                        @item.Email
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="card-link btn btn-primary">Edit</a>
+                    <a href="#" class="card-link btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

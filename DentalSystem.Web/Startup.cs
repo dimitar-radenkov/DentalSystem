@@ -1,8 +1,13 @@
 ﻿namespace DentalSystem.Web
 {
+    using System;
+    using AutoMapper;
     using DentalSystem.Data;
     using DentalSystem.Models;
+    using DentalSystem.Services;
+    using DentalSystem.Services.Contracts;
     using DentalSystem.Web.Areas.Identity.Services;
+    using DentalSystem.Web.Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -33,13 +38,15 @@
             });
 
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IDoctorsService, DoctorsService>();
 
             services.AddDbContext<DentalSystemDbContext>(options =>
                 options.UseSqlServer(
                     this.Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<DentalSystemDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<DentalSystemDbContext>()
+                .AddDefaultTokenProviders();         
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -51,6 +58,7 @@
                 options.Password.RequireLowercase = false;
             });
 
+
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {                  
@@ -58,11 +66,13 @@
                     options.ClientSecret = this.Configuration["Authentication:Google:ClientSecret"];
                 });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -75,6 +85,8 @@
                 app.UseHsts();
             }
 
+            serviceProvider.AddAdministrator();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -83,6 +95,10 @@
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
