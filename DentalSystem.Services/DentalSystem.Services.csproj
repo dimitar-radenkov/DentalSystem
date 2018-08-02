@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DentalSystem.Common\DentalSystem.Common.csproj" />
     <ProjectReference Include="..\DentalSystem.Data\DentalSystem.Data.csproj" />
     <ProjectReference Include="..\DentalSystem.Models\DentalSystem.Models.csproj" />
   </ItemGroup>

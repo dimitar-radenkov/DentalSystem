@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
+    using DentalSystem.Common.Contants;
     using DentalSystem.Data;
     using DentalSystem.Models;
     using DentalSystem.Models.ViewModels;
@@ -56,6 +57,7 @@
                 File = file,
             };
             this.db.Doctors.Add(doctor);
+            this.userManager.AddToRoleAsync(user, Roles.DOCTOR).Wait();
 
             return this.db.SaveChangesAsync();
         }

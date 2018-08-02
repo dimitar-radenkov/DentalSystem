@@ -1,6 +1,6 @@
 ﻿namespace DentalSystem.Web.Areas.Administrator.Controllers
 {
-    using DentalSystem.Web.Contants;
+    using DentalSystem.Common.Contants;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 

@@ -1,10 +1,11 @@
 ﻿namespace DentalSystem.Web.Controllers
 {
     using System.IO;
+    using DentalSystem.Common.Contants;
     using DentalSystem.Services.Contracts;
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("api/file")]
+    [Route(ApiRoutes.FILE)]
     [ApiController]
     public class FileController : ControllerBase
     {

@@ -1,4 +1,4 @@
-﻿namespace DentalSystem.Web.Contants
+﻿namespace DentalSystem.Common.Contants
 {
     public class Roles
     {
