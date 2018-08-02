@@ -8,7 +8,12 @@
     {
         public AutoMapperProfile()
         {
-            this.CreateMap<Doctor, DoctorViewModel>();
+            this.CreateMap<File, FileViewModel>();
+
+            this.CreateMap<Doctor, DoctorViewModel>()
+                .ForMember(vm => vm.Name, cfg => cfg.MapFrom(model => model.User.UserName))
+                .ForMember(vm => vm.Email, cfg => cfg.MapFrom(model => model.User.Email))
+                .ForMember(vm => vm.Phone, cfg => cfg.MapFrom(model => model.User.PhoneNumber));
         }
     }
 }

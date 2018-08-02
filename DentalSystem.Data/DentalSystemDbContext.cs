@@ -8,6 +8,8 @@
     {
         public DbSet<Doctor> Doctors { get; set; }
 
+        public DbSet<File> Files { get; set; }
+
         public DentalSystemDbContext(DbContextOptions<DentalSystemDbContext> options)
             : base(options)
         {

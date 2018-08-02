@@ -1,7 +1,6 @@
 ﻿namespace DentalSystem.Web.Areas.Administrator.Controllers
 {
     using System.IO;
-    using System.Linq;
     using System.Threading.Tasks;
     using DentalSystem.Services.Contracts;
     using DentalSystem.Web.Areas.Administrator.Models.BindingModels;
@@ -16,31 +15,11 @@
             this.doctorsService = doctorsService;
         }
 
-        public IActionResult Index()
-        {
-            return View(this.doctorsService.All());
-        }
+        public IActionResult Index() => 
+            this.View(this.doctorsService.All());
 
         [HttpGet]
-        public FileStreamResult ViewImage(int id)
-        {
-            var doctor = this.doctorsService.GetById(id);
-            if (doctor == null)
-            {
-                return null;
-            }
-
-            return new FileStreamResult(
-                new MemoryStream(doctor.Image),
-                doctor.ImageContentType);
-            
-        }
-
-        [HttpGet]
-        public IActionResult Add()
-        {
-            return this.View();
-        }
+        public IActionResult Add() => this.View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -60,13 +39,12 @@
 
             await this.doctorsService.AddAsync(
                 bindingModel.Name,
-                bindingModel.Address,
                 bindingModel.Email,
                 bindingModel.Phone,
                 image,
                 bindingModel.Image.ContentType);
 
-            return this.RedirectToAction(nameof(Index));
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

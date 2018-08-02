@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentalSystem.Data.Migrations
 {
     [DbContext(typeof(DentalSystemDbContext))]
-    [Migration("20180801113652_added_doctors_image_contenttype")]
-    partial class added_doctors_image_contenttype
+    [Migration("20180802102003_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,21 +27,33 @@ namespace DentalSystem.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address");
+                    b.Property<string>("FileId");
 
-                    b.Property<string>("Email");
+                    b.Property<Guid?>("FileId1");
 
-                    b.Property<byte[]>("Image");
-
-                    b.Property<string>("ImageContentType");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Phone");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FileId1");
+
+                    b.HasIndex("UserId");
+
                     b.ToTable("Doctors");
+                });
+
+            modelBuilder.Entity("DentalSystem.Models.File", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ContentType");
+
+                    b.Property<byte[]>("Data");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -203,6 +215,17 @@ namespace DentalSystem.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("DentalSystem.Models.Doctor", b =>
+                {
+                    b.HasOne("DentalSystem.Models.File", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

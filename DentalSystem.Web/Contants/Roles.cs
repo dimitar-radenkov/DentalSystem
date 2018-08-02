@@ -1,7 +1,8 @@
 ﻿namespace DentalSystem.Web.Contants
 {
-    public class AreaConstanst
+    public class Roles
     {
         public const string ADMINISTRATOR = "Administrator";
+        public const string DOCTOR = "Doctor";
     }
 }

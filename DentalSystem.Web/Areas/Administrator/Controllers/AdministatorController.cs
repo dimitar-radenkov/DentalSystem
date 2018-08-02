@@ -4,10 +4,10 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    [Area(AreaConstanst.ADMINISTRATOR)]
-    [Authorize(Roles = RolesContants.ADMINISTRATOR)]
+    [Area(Areas.ADMINISTRATOR)]
+    [Authorize(Roles = Roles.ADMINISTRATOR)]
     public abstract class AdministatorController : Controller
     {
-
+        
     }
 }

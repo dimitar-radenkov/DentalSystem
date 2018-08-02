@@ -8,7 +8,7 @@
     {
         IEnumerable<DoctorViewModel> All();
 
-        Task<int> AddAsync(string name, string address, string email, string phone, byte[] imageData, string imageContentType);
+        Task<int> AddAsync(string name, string email, string phone, byte[] imageData, string imageContentType);
 
         DoctorViewModel GetById(int id);
         

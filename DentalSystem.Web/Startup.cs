@@ -39,6 +39,7 @@
 
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IDoctorsService, DoctorsService>();
+            services.AddTransient<IFileService, FileService>();
 
             services.AddDbContext<DentalSystemDbContext>(options =>
                 options.UseSqlServer(
@@ -85,7 +86,7 @@
                 app.UseHsts();
             }
 
-            serviceProvider.AddAdministrator();
+            serviceProvider.AddRolesAndAdmin();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

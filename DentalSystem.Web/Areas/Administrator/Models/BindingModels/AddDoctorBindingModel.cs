@@ -6,11 +6,7 @@
     public class AddDoctorBindingModel
     {
         [Required]
-        [Display(Name = "Name")]
         public string Name { get; set; }
-
-        [Required]
-        public string Address { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
