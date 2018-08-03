@@ -7,8 +7,7 @@
         [Required]
         [DataType(DataType.Text)]
         [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
-        [Display(Name = "Username")]
-        public string Username { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [DataType(DataType.PhoneNumber)]

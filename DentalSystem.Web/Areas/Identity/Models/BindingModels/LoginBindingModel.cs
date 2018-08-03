@@ -5,8 +5,9 @@
     public class LoginBindingModel
     {
         [Required]
-        [DataType(DataType.Text)]
-        public string Username { get; set; }
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email Address")]
+        public string EmailAddress { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

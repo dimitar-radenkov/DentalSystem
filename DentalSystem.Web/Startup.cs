@@ -45,7 +45,7 @@
                 options.UseSqlServer(
                     this.Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<DentalSystemDbContext>()
                 .AddDefaultTokenProviders();         
 

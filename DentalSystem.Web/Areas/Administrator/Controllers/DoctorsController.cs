@@ -1,7 +1,6 @@
 ﻿namespace DentalSystem.Web.Areas.Administrator.Controllers
 {
     using System.IO;
-    using System.Threading.Tasks;
     using DentalSystem.Services.Contracts;
     using DentalSystem.Web.Areas.Administrator.Models.BindingModels;
     using Microsoft.AspNetCore.Mvc;
@@ -23,7 +22,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(AddDoctorBindingModel bindingModel)
+        public IActionResult Add(AddDoctorBindingModel bindingModel)
         {
             if (!this.ModelState.IsValid)
             {
@@ -33,16 +32,18 @@
             byte[] image = null;
             using (var ms = new MemoryStream())
             {
-                await bindingModel.Image.CopyToAsync(ms);
+                bindingModel.Image.CopyToAsync(ms).Wait();
                 image = ms.ToArray();
             }
 
-            await this.doctorsService.AddAsync(
+            var generatedPassword = this.doctorsService.Add(
                 bindingModel.Name,
                 bindingModel.Email,
                 bindingModel.Phone,
                 image,
                 bindingModel.Image.ContentType);
+
+            int a = 4;
 
             return this.RedirectToAction(nameof(this.Index));
         }

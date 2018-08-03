@@ -1,27 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-
-namespace DentalSystem.Web.Areas.Identity.Pages.Account
+﻿namespace DentalSystem.Web.Areas.Identity.Pages.Account
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using DentalSystem.Models;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.Extensions.Logging;
+
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> signInManager;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
         private readonly ILogger<ExternalLoginModel> logger;
 
         public ExternalLoginModel(
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
+            SignInManager<User> signInManager,
+            UserManager<User> userManager,
             ILogger<ExternalLoginModel> logger)
         {
             this.signInManager = signInManager;
@@ -44,6 +42,9 @@ namespace DentalSystem.Web.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]     
+            public string Name { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -90,13 +91,18 @@ namespace DentalSystem.Web.Areas.Identity.Pages.Account
                 // If the user does not have an account, then ask the user to create an account.
                 this.ReturnUrl = returnUrl;
                 this.LoginProvider = info.LoginProvider;
+                this.Input = new InputModel();
+
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
-                    this.Input = new InputModel
-                    {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                    };
+                    this.Input.Email = info.Principal.FindFirstValue(ClaimTypes.Email);          
                 }
+
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Name))
+                {
+                    this.Input.Name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                }
+
                 return Page();
             }
         }
@@ -114,7 +120,7 @@ namespace DentalSystem.Web.Areas.Identity.Pages.Account
 
             if (this.ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = this.Input.Email, Email = this.Input.Email };
+                var user = new User { UserName = this.Input.Email, Email = this.Input.Email };
                 var result = await this.userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

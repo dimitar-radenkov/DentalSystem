@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using DentalSystem.Models;
     using DentalSystem.Web.Areas.Identity.Models.BindingModels;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
@@ -14,11 +15,16 @@
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
         private readonly ILogger<LoginModel> logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            ILogger<LoginModel> logger)
         {
+            this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
         }
@@ -34,7 +40,6 @@
         public string ErrorMessage { get; set; }
 
         
-
         public async Task OnGetAsync(string returnUrl = null)
         {
             if (!string.IsNullOrEmpty(this.ErrorMessage))
@@ -59,9 +64,9 @@
             if (this.ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true   
                 var result = await this.signInManager.PasswordSignInAsync(
-                    this.LoginBindingModel.Username,
+                    this.LoginBindingModel.EmailAddress,
                     this.LoginBindingModel.Password,
                     this.LoginBindingModel.RememberMe,
                     lockoutOnFailure: true);

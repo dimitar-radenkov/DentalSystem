@@ -4,7 +4,7 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    public class DentalSystemDbContext : IdentityDbContext
+    public class DentalSystemDbContext : IdentityDbContext<User>
     {
         public DbSet<Doctor> Doctors { get; set; }
 

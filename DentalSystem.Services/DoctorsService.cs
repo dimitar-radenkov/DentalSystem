@@ -1,10 +1,11 @@
 ﻿namespace DentalSystem.Services
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
-    using System.Threading.Tasks;
     using AutoMapper;
     using DentalSystem.Common.Contants;
+    using DentalSystem.Common.Utils;
     using DentalSystem.Data;
     using DentalSystem.Models;
     using DentalSystem.Models.ViewModels;
@@ -16,33 +17,37 @@
     {
         private readonly DentalSystemDbContext db;
         private readonly IMapper mapper;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<User> userManager;
 
         public DoctorsService(
             DentalSystemDbContext db,
             IMapper mapper,
-            UserManager<IdentityUser> userManager)
+            UserManager<User> userManager)
         {
             this.db = db;
             this.mapper = mapper;
             this.userManager = userManager;
         }
 
-        public Task<int> AddAsync(
+        public string Add(
             string name,
             string email, 
             string phone, 
             byte[] imageData,
             string imageContentType)
         {
-            var user = new IdentityUser
+            var user = new User
             {
-                UserName = name,
+                UserName = email,
                 Email = email,
                 PhoneNumber = phone,
                 EmailConfirmed = true,
             };
-            this.db.Users.Add(user);
+
+            var tempPassword = PasswordGenerator.Generate();
+            Debug.WriteLine($"Random Password Generated : {tempPassword}"); 
+            this.userManager.CreateAsync(user, tempPassword).Wait();
+            this.userManager.AddToRoleAsync(user, Roles.DOCTOR).Wait();
 
             var file = new File
             {
@@ -57,9 +62,9 @@
                 File = file,
             };
             this.db.Doctors.Add(doctor);
-            this.userManager.AddToRoleAsync(user, Roles.DOCTOR).Wait();
+            this.db.SaveChanges();
 
-            return this.db.SaveChangesAsync();
+            return tempPassword;
         }
 
         public IEnumerable<DoctorViewModel> All() =>

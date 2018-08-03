@@ -3,19 +3,21 @@
     using System;
     using System.Linq;
     using DentalSystem.Common.Contants;
+    using DentalSystem.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class ApplicationExtensions
     {
         public static string ADMIN_EMAIL = "admin@gmail.com";
-        public static string ADMIN_USERNAME = "Admin";
+        public static string ADMIN_NAME = "Dimitar Radenkov";
         public static string ADMIN_PASS = "admin123";
 
         public static void AddRolesAndAdmin(this IServiceProvider serviceProvider)
         {
-            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
 
             if (roleManager.Roles.Any())
             {
@@ -35,7 +37,7 @@
 
             //create user
             userManager.CreateAsync(
-                new IdentityUser { Email = ADMIN_EMAIL, UserName = ADMIN_USERNAME, EmailConfirmed = true },
+                new User { Email = ADMIN_EMAIL, UserName = ADMIN_EMAIL, Name = ADMIN_NAME, EmailConfirmed = true },
                 ADMIN_PASS).Wait();
 
             //add to roles

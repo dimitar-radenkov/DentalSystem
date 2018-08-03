@@ -1,6 +1,7 @@
 ﻿namespace DentalSystem.Web.Areas.Identity.Pages.Account
 {
     using System.Threading.Tasks;
+    using DentalSystem.Models;
     using DentalSystem.Web.Areas.Identity.Models.BindingModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -12,14 +13,14 @@
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> signInManager;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -44,9 +45,10 @@
             returnUrl = returnUrl ?? this.Url.Content("~/");
             if (this.ModelState.IsValid)
             {
-                var user = new IdentityUser
+                var user = new User
                 {
-                    UserName = this.RegisterBindingModel.Username,
+                    Name = this.RegisterBindingModel.Name,
+                    UserName = this.RegisterBindingModel.Email,
                     Email = this.RegisterBindingModel.Email,
                     PhoneNumber = this.RegisterBindingModel.PhoneNumber,
                     EmailConfirmed = true,
