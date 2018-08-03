@@ -1,7 +1,24 @@
-﻿
-@{
-    ViewData["Title"] = "_NotificationPartial";
+﻿@{
+    var type = this.TempData[Notifications.MESSAGE_TYPE_KEY] as string;
+    var message = this.TempData[Notifications.MESSAGE_KEY];
 }
 
-<h2>_NotificationPartial</h2>
+@if (message != null)
+{
+    <div id="messageBox" class="@type">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        @message
+    </div>
+
+    @if (type == Notifications.SUCCESS_MESSAGE_TYPE)
+    {
+        <script>
+            var timeoutObj = setTimeout(callback, 10000);
+            function callback() {
+                $("#messageBox").fadeOut(500);
+                clearTimeout(timeoutObj);
+            }
+        </script>
+    }
+}
 

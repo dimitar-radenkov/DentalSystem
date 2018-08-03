@@ -1,8 +1,10 @@
 ﻿namespace DentalSystem.Web.Areas.Administrator.Controllers
 {
+    using System;
     using System.IO;
     using DentalSystem.Services.Contracts;
     using DentalSystem.Web.Areas.Administrator.Models.BindingModels;
+    using DentalSystem.Web.Extensions;
     using Microsoft.AspNetCore.Mvc;
 
     public class DoctorsController : AdministatorController
@@ -29,22 +31,29 @@
                 return this.View(bindingModel);
             }
 
-            byte[] image = null;
-            using (var ms = new MemoryStream())
+            try
             {
-                bindingModel.Image.CopyToAsync(ms).Wait();
-                image = ms.ToArray();
+                byte[] image = null;
+                using (var ms = new MemoryStream())
+                {
+                    bindingModel.Image.CopyToAsync(ms).Wait();
+                    image = ms.ToArray();
+                }
+
+                var generatedPassword = this.doctorsService.Add(
+                    bindingModel.Name,
+                    bindingModel.Email,
+                    bindingModel.Phone,
+                    image,
+                    bindingModel.Image.ContentType);
+            }
+            catch (Exception)
+            {
+                this.AddDangerMessage("Some error occured");
+                return this.View();
             }
 
-            var generatedPassword = this.doctorsService.Add(
-                bindingModel.Name,
-                bindingModel.Email,
-                bindingModel.Phone,
-                image,
-                bindingModel.Image.ContentType);
-
-            int a = 4;
-
+            this.AddSuccessMessage("Doctor has been added successfully");
             return this.RedirectToAction(nameof(this.Index));
         }
     }
