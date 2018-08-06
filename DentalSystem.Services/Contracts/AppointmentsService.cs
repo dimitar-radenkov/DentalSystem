@@ -8,6 +8,7 @@
     using DentalSystem.Data;
     using DentalSystem.Models;
     using DentalSystem.Models.ViewModels;
+    using Microsoft.EntityFrameworkCore;
 
     public class AppointmentsService : IAppointmentsService
     {
@@ -48,6 +49,9 @@
 
         public IEnumerable<AppointmentViewModel> All() =>
             this.db.Appointments
+                .Include(a => a.Doctor)
+                .Include(a => a.User)
+                .Include(a => a.Manipulations)
                 .Select(a => this.mapper.Map<Appointment, AppointmentViewModel>(a))
                 .ToList();
     }
