@@ -30,17 +30,17 @@
                     DentalSystem
                     @if (this.User.IsInRole(Roles.ADMINISTRATOR))
                     {
-                        <span>(Administrator)</span>
+                        <span>(@Roles.ADMINISTRATOR)</span>
                     }
-                    else if (this.User.IsInRole(Roles.DOCTOR))
+                    else if (this.User.IsInRole(Roles.OFFICE_MANAGER))
                     {
-                        <span>(Doctor)</span>
+                        <span>(@Roles.OFFICE_MANAGER)</span>
                     }
                 </a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="@Areas.ADMINISTRATOR" asp-controller="Doctors" asp-action="Add">Add Doctor</a></li>
+                    <partial name="_MenuPartial" />
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>

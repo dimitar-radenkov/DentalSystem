@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AutoMapper;
+using DentalSystem.Data;
+using DentalSystem.Web.Mapping;
+using Microsoft.EntityFrameworkCore;
 
 namespace DentalSystem.Console
 {
@@ -6,7 +9,14 @@ namespace DentalSystem.Console
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine("Hello World!");
+            Mapper.Initialize(config =>
+            {
+                config.AddProfile(new AutoMapperProfile());
+            });
+
+            var db = new DentalSystemDbContext(new DbContextOptions<DentalSystemDbContext>());
+            
+            
         }
     }
 }

@@ -9,7 +9,7 @@
 
         string Add(string name, string email, string phone, byte[] imageData, string imageContentType);
 
-        DoctorViewModel GetById(int id);
+        DoctorViewModel GetById(string id);
         
     }
 }

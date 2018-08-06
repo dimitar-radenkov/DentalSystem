@@ -1,0 +1,9 @@
+﻿@if (this.User.IsInRole(Roles.ADMINISTRATOR))
+{
+    <li><a asp-area="@Areas.ADMINISTRATOR" asp-controller="doctors" asp-action="add">Add Doctor</a></li>
+}
+
+@if (this.User.IsInRole(Roles.OFFICE_MANAGER))
+{
+    <li><a asp-area="@Areas.OFFICE" asp-controller="appointments" asp-action="add">Add Appointment</a></li>
+}

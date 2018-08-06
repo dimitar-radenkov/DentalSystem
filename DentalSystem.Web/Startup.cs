@@ -40,6 +40,9 @@
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IDoctorsService, DoctorsService>();
             services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IPatientsService, PatientsService>();
+            services.AddTransient<IAppointmentsService, AppointmentsService>();
+            services.AddTransient<IManipulationsService, ManipulationService>();
 
             services.AddDbContext<DentalSystemDbContext>(options =>
                 options.UseSqlServer(

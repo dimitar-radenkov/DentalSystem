@@ -3,12 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <UserSecretsId>aspnet-DentalSystem.Web-DCEB0068-7005-4CB2-9495-E5DA0069E996</UserSecretsId>
-    <AssemblyVersion>1.18215.3.0</AssemblyVersion>
-    <FileVersion>1.18215.3.0</FileVersion>
+    <AssemblyVersion>1.18218.6.0</AssemblyVersion>
+    <FileVersion>1.18218.6.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="bootstrap-select" Version="1.13.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" PrivateAssets="All" />
   </ItemGroup>
@@ -26,10 +27,17 @@
     <Content Update="Areas\Identity\Pages\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Pages\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Administrator\Views\Doctors\" />
+    <Folder Include="Areas\Office\Appointments\" />
   </ItemGroup>
 
 </Project>

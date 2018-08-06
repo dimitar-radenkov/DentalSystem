@@ -1,0 +1,18 @@
+﻿@page
+@model DentalSystem.Web.Pages.Appointments.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>All Appointments</h2>
+
+@if (this.Model.Appointments.Any())
+{
+    <ul>
+        @foreach (var item in this.Model.Appointments)
+        {
+            Html.DisplayForModel(item);
+        }
+    </ul>
+}
+

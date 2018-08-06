@@ -25,7 +25,7 @@
             }
 
             //create Roles
-            var roles = new[] { Roles.ADMINISTRATOR, Roles.DOCTOR };
+            var roles = new[] { Roles.ADMINISTRATOR, Roles.OFFICE_MANAGER };
             foreach (var role in roles)
             {
                 var identityRole = roleManager.FindByNameAsync(role).Result;
@@ -35,10 +35,16 @@
                 }
             }
 
-            //create user
+            //create admin
             userManager.CreateAsync(
-                new User { Email = ADMIN_EMAIL, UserName = ADMIN_EMAIL, Name = ADMIN_NAME, EmailConfirmed = true },
-                ADMIN_PASS).Wait();
+                new User {
+                    Email = ADMIN_EMAIL,
+                    UserName = ADMIN_EMAIL,
+                    Name = ADMIN_NAME,
+                    EmailConfirmed = true,
+                    Type = UserType.Admin },
+                    ADMIN_PASS)
+                .Wait();
 
             //add to roles
             var user = userManager.FindByEmailAsync(ADMIN_EMAIL).Result;

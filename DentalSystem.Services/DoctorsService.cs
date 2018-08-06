@@ -36,8 +36,18 @@
             byte[] imageData,
             string imageContentType)
         {
+            var file = new File
+            {
+                Data = imageData,
+                ContentType = imageContentType,
+            };
+            this.db.Files.Add(file);
+
             var user = new User
             {
+                File = file,
+                Type = UserType.Doctor,
+                Name = name,
                 UserName = email,
                 Email = email,
                 PhoneNumber = phone,
@@ -47,37 +57,25 @@
             var tempPassword = PasswordGenerator.Generate();
             Debug.WriteLine($"Random Password Generated : {tempPassword}"); 
             this.userManager.CreateAsync(user, tempPassword).Wait();
-            this.userManager.AddToRoleAsync(user, Roles.DOCTOR).Wait();
-
-            var file = new File
-            {
-                Data = imageData,
-                ContentType = imageContentType,
-            };
-            this.db.Files.Add(file);
-
-            var doctor = new Doctor
-            {
-                User = user,
-                File = file,
-            };
-            this.db.Doctors.Add(doctor);
+            this.userManager.AddToRoleAsync(user, Roles.OFFICE_MANAGER).Wait();
+   
             this.db.SaveChanges();
 
             return tempPassword;
         }
 
         public IEnumerable<DoctorViewModel> All() =>
-            this.db.Doctors
-                .Include(d => d.User)
+            this.db.Users
+                .Where(u => u.Type == UserType.Doctor)
                 .Include(d => d.File)
-                .Select(this.mapper.Map<Doctor, DoctorViewModel>)
+                .Select(this.mapper.Map<User, DoctorViewModel>)
                 .ToList();
 
-        public DoctorViewModel GetById(int id) =>
-            this.mapper.Map<Doctor, DoctorViewModel>(
-                this.db.Doctors
-                    .Include(d => d.User)
+        public DoctorViewModel GetById(string id) =>
+            this.mapper.Map<User, DoctorViewModel>(
+                this.db.Users
+                    .Where(u => u.Type == UserType.Doctor)
+                    .Include(d => d.File)
                     .FirstOrDefault(d => d.Id == id));
     }
 }

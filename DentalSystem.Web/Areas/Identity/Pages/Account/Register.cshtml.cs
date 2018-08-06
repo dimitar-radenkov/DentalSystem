@@ -47,6 +47,7 @@
             {
                 var user = new User
                 {
+                    Type = UserType.Ordinary,
                     Name = this.RegisterBindingModel.Name,
                     UserName = this.RegisterBindingModel.Email,
                     Email = this.RegisterBindingModel.Email,

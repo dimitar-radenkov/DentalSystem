@@ -19,27 +19,27 @@ namespace DentalSystem.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DentalSystem.Models.Doctor", b =>
+            modelBuilder.Entity("DentalSystem.Models.Appointment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("FileId");
+                    b.Property<DateTime>("DateTime");
 
-                    b.Property<Guid?>("FileId1");
+                    b.Property<string>("DoctorId");
 
-                    b.Property<string>("FullName");
+                    b.Property<int>("Status");
 
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FileId1");
+                    b.HasIndex("DoctorId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("DentalSystem.Models.File", b =>
@@ -56,6 +56,43 @@ namespace DentalSystem.Data.Migrations
                     b.ToTable("Files");
                 });
 
+            modelBuilder.Entity("DentalSystem.Models.Manipulation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<TimeSpan>("Duration");
+
+                    b.Property<string>("Name");
+
+                    b.Property<decimal>("Price");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Manipulations");
+
+                    b.HasData(
+                        new { Id = 1, Duration = new TimeSpan(0, 0, 30, 0, 0), Name = "Extraction", Price = 50m },
+                        new { Id = 2, Duration = new TimeSpan(0, 0, 40, 0, 0), Name = "Cleaning", Price = 80m },
+                        new { Id = 3, Duration = new TimeSpan(0, 0, 40, 0, 0), Name = "Seal", Price = 150m },
+                        new { Id = 4, Duration = new TimeSpan(0, 2, 0, 0, 0), Name = "Thoot Implant", Price = 600m }
+                    );
+                });
+
+            modelBuilder.Entity("DentalSystem.Models.ManipulationAppointment", b =>
+                {
+                    b.Property<int>("AppointmentId");
+
+                    b.Property<int>("ManipulationId");
+
+                    b.HasKey("AppointmentId", "ManipulationId");
+
+                    b.HasIndex("ManipulationId");
+
+                    b.ToTable("ManipulationsAppointments");
+                });
+
             modelBuilder.Entity("DentalSystem.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -70,6 +107,10 @@ namespace DentalSystem.Data.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FileId");
+
+                    b.Property<Guid?>("FileId1");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -93,10 +134,14 @@ namespace DentalSystem.Data.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
+                    b.Property<int>("Type");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -219,15 +264,35 @@ namespace DentalSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("DentalSystem.Models.Doctor", b =>
+            modelBuilder.Entity("DentalSystem.Models.Appointment", b =>
                 {
-                    b.HasOne("DentalSystem.Models.File", "File")
+                    b.HasOne("DentalSystem.Models.User", "Doctor")
                         .WithMany()
-                        .HasForeignKey("FileId1");
+                        .HasForeignKey("DoctorId");
 
                     b.HasOne("DentalSystem.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("DentalSystem.Models.ManipulationAppointment", b =>
+                {
+                    b.HasOne("DentalSystem.Models.Appointment", "Appointment")
+                        .WithMany("Manipulations")
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DentalSystem.Models.Manipulation", "Manipulation")
+                        .WithMany()
+                        .HasForeignKey("ManipulationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DentalSystem.Models.User", b =>
+                {
+                    b.HasOne("DentalSystem.Models.File", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

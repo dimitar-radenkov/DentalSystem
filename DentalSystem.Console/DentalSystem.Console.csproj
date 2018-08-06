@@ -3,8 +3,17 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <AssemblyVersion>1.18214.2.0</AssemblyVersion>
-    <FileVersion>1.18214.2.0</FileVersion>
+    <AssemblyVersion>1.18218.6.0</AssemblyVersion>
+    <FileVersion>1.18218.6.0</FileVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DentalSystem.Models\DentalSystem.Models.csproj" />
+    <ProjectReference Include="..\DentalSystem.Web\DentalSystem.Web.csproj" />
+  </ItemGroup>
 
 </Project>
