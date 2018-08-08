@@ -19,7 +19,11 @@
             this.CreateMap<User, PatientViewModel>()
                 .ForMember(vm => vm.Name, cfg => cfg.MapFrom(user => user.Name));
 
-            this.CreateMap<Manipulation, ManipulationViewModel>();
+            this.CreateMap<ManipulationAppointment, ManipulationViewModel>()
+                .ForMember(vm => vm.Name, cfg => cfg.MapFrom(m => m.Manipulation.Name))
+                .ForMember(vm => vm.Id, cfg => cfg.MapFrom(m => m.Manipulation.Id))
+                .ForMember(vm => vm.Duration, cfg => cfg.MapFrom(m => m.Manipulation.Duration))
+                .ForMember(vm => vm.Price, cfg => cfg.MapFrom(m => m.Manipulation.Price));
 
             this.CreateMap<Appointment, AppointmentViewModel>()
                 .ForMember(vm => vm.DoctorName, cfg => cfg.MapFrom(vm => vm.Doctor.Name))

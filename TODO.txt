@@ -1,4 +1,1 @@
-1.Change _Layer
-	-create more user friendly menu 
-
-2. Allow Admin and Office roles to add users
+1. Allow Admin and Office roles to add users

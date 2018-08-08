@@ -8,6 +8,8 @@
     {
         public int Id { get; set; }
 
+        public AppointmentStatus Status { get; set; }
+
         public string DoctorName { get; set; }
 
         public string PatientName { get; set; }

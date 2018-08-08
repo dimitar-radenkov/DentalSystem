@@ -1,9 +1,27 @@
 ﻿@if (this.User.IsInRole(Roles.ADMINISTRATOR))
 {
-    <li><a asp-area="@Areas.ADMINISTRATOR" asp-controller="doctors" asp-action="add">Add Doctor</a></li>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="/@Areas.ADMINISTRATOR/doctors">
+            Doctors
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a asp-area="@Areas.ADMINISTRATOR" asp-controller="doctors" asp-action="index">All</a></li>
+            <li><a asp-area="@Areas.ADMINISTRATOR" asp-controller="doctors" asp-action="add">Add</a></li>
+        </ul>
+    </li>
 }
 
 @if (this.User.IsInRole(Roles.OFFICE_MANAGER))
 {
-    <li><a asp-area="@Areas.OFFICE" asp-controller="appointments" asp-action="add">Add Appointment</a></li>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" asp-area="@Areas.OFFICE" asp-controller="appointments" asp-action="index">
+            Appointments
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a asp-area="@Areas.OFFICE" asp-controller="appointments" asp-action="index">All</a></li>
+            <li><a asp-area="@Areas.OFFICE" asp-controller="appointments" asp-action="add">Add</a></li>
+        </ul>
+    </li>
 }

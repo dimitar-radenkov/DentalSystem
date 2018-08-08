@@ -8,21 +8,28 @@
 
 @if (this.Model.Appointments.Any())
 {
-    <ul>
+<div class="row">
+    <div class="col-sm-6 col-md-4">
         @foreach (var item in this.Model.Appointments)
         {
-            <li>              
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">@item.DateTime </h5>
-                            <h6 class="card-subtitle mb-2 text-muted">@item.DoctorName</h6>
-                            <h6 class="card-subtitle mb-2 text-muted">@item.PatientName</h6>            
-                            <p class="card-body">@item.TotalPrice</p>
-                        </div>
-                    </div>
-                
-            </li>
+            var classType = item.Status == DentalSystem.Models.AppointmentStatus.Done
+                ? "alert alert-success" : item.Status == DentalSystem.Models.AppointmentStatus.Scheduled
+                ? "alert alert-info"
+                : "alert alert-danger";
+
+            <div class="thumbnail @classType">
+                <div class="caption">
+                    <h3>Patient: @item.PatientName</h3>
+                    <p>Status : @item.Status</p>
+                    <p class="text-muted">Doctor: @item.DoctorName</p>
+                    <p>@item.DateTime</p>
+                    <a href="/Patients/Edit/@item.Id" class="btn btn-warning">Edit</a>
+                    <button class="btn btn-danger">Delete</button>
+                </div>
+            </div>
         }
-    </ul>
+    </div>
+</div>
 }
+    
 

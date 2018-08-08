@@ -1,4 +1,4 @@
-﻿namespace DentalSystem.Services.Contracts
+﻿namespace DentalSystem.Services
 {
     using System;
     using System.Collections.Generic;
@@ -8,6 +8,7 @@
     using DentalSystem.Data;
     using DentalSystem.Models;
     using DentalSystem.Models.ViewModels;
+    using DentalSystem.Services.Contracts;
     using Microsoft.EntityFrameworkCore;
 
     public class AppointmentsService : IAppointmentsService
@@ -52,7 +53,8 @@
                 .Include(a => a.Doctor)
                 .Include(a => a.User)
                 .Include(a => a.Manipulations)
-                .Select(a => this.mapper.Map<Appointment, AppointmentViewModel>(a))
+                    .ThenInclude(m => m.Manipulation)
+                .Select(a => this.mapper.Map<AppointmentViewModel>(a))
                 .ToList();
     }
 }
