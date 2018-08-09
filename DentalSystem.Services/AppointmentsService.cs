@@ -50,6 +50,7 @@
 
         public IEnumerable<AppointmentViewModel> All() =>
             this.db.Appointments
+                .OrderByDescending(a => a.DateTime)
                 .Include(a => a.Doctor)
                 .Include(a => a.User)
                 .Include(a => a.Manipulations)

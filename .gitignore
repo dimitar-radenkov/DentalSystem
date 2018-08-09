@@ -9,3 +9,5 @@
 /DentalSystem.Services/bin
 /DentalSystem.Web/obj
 /DentalSystem.Web/bin
+/DentalSystem.Data.DbInitializer/obj
+/DentalSystem.Data.DbInitializer/bin

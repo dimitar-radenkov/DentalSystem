@@ -243,17 +243,6 @@ namespace DentalSystem.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Manipulations",
-                columns: new[] { "Id", "Duration", "Name", "Price" },
-                values: new object[,]
-                {
-                    { 1, new TimeSpan(0, 0, 30, 0, 0), "Extraction", 50m },
-                    { 2, new TimeSpan(0, 0, 40, 0, 0), "Cleaning", 80m },
-                    { 3, new TimeSpan(0, 0, 40, 0, 0), "Seal", 150m },
-                    { 4, new TimeSpan(0, 2, 0, 0, 0), "Thoot Implant", 600m }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_DoctorId",
                 table: "Appointments",

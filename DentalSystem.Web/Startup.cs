@@ -7,7 +7,6 @@
     using DentalSystem.Services;
     using DentalSystem.Services.Contracts;
     using DentalSystem.Web.Areas.Identity.Services;
-    using DentalSystem.Web.Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -88,8 +87,6 @@
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
-            serviceProvider.AddRolesAndAdmin();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -4,7 +4,6 @@
     using System.Diagnostics;
     using System.Linq;
     using AutoMapper;
-    using DentalSystem.Common.Contants;
     using DentalSystem.Common.Utils;
     using DentalSystem.Data;
     using DentalSystem.Models;
@@ -57,7 +56,6 @@
             var tempPassword = PasswordGenerator.Generate();
             Debug.WriteLine($"Random Password Generated : {tempPassword}"); 
             this.userManager.CreateAsync(user, tempPassword).Wait();
-            this.userManager.AddToRoleAsync(user, Roles.OFFICE_MANAGER).Wait();
    
             this.db.SaveChanges();
 

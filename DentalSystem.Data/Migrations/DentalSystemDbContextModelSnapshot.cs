@@ -71,13 +71,6 @@ namespace DentalSystem.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Manipulations");
-
-                    b.HasData(
-                        new { Id = 1, Duration = new TimeSpan(0, 0, 30, 0, 0), Name = "Extraction", Price = 50m },
-                        new { Id = 2, Duration = new TimeSpan(0, 0, 40, 0, 0), Name = "Cleaning", Price = 80m },
-                        new { Id = 3, Duration = new TimeSpan(0, 0, 40, 0, 0), Name = "Seal", Price = 150m },
-                        new { Id = 4, Duration = new TimeSpan(0, 2, 0, 0, 0), Name = "Thoot Implant", Price = 600m }
-                    );
                 });
 
             modelBuilder.Entity("DentalSystem.Models.ManipulationAppointment", b =>

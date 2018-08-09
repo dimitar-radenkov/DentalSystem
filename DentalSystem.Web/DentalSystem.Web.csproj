@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DentalSystem.Data.DbInitializer\DentalSystem.Data.DbInitializer.csproj" />
     <ProjectReference Include="..\DentalSystem.Data\DentalSystem.Data.csproj" />
     <ProjectReference Include="..\DentalSystem.Models\DentalSystem.Models.csproj" />
     <ProjectReference Include="..\DentalSystem.Services\DentalSystem.Services.csproj" />
