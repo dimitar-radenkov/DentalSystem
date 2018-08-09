@@ -9,26 +9,27 @@
 @if (this.Model.Appointments.Any())
 {
 <div class="row">
-    <div class="col-sm-6 col-md-4">
-        @foreach (var item in this.Model.Appointments)
-        {
-            var classType = item.Status == DentalSystem.Models.AppointmentStatus.Done
-                ? "alert alert-success" : item.Status == DentalSystem.Models.AppointmentStatus.Scheduled
-                ? "alert alert-info"
-                : "alert alert-danger";
 
-            <div class="thumbnail @classType">
-                <div class="caption">
-                    <h3>Patient: @item.PatientName</h3>
-                    <p>Status : @item.Status</p>
-                    <p class="text-muted">Doctor: @item.DoctorName</p>
-                    <p>@item.DateTime</p>
-                    <a href="/Patients/Edit/@item.Id" class="btn btn-warning">Edit</a>
-                    <button class="btn btn-danger">Delete</button>
-                </div>
+    @foreach (var item in this.Model.Appointments)
+    {
+        var classType = item.Status == DentalSystem.Models.AppointmentStatus.Done
+            ? "alert alert-success" : item.Status == DentalSystem.Models.AppointmentStatus.Scheduled
+            ? "alert alert-info"
+            : "alert alert-danger";
+
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail @classType">
+            <div class="caption">
+                <h3>Patient: @item.PatientName</h3>
+                <p>Status : @item.Status</p>
+                <p class="text-muted">Doctor: @item.DoctorName</p>
+                <p>@item.DateTime</p>
+                <a href="/Patients/Edit/@item.Id" class="btn btn-warning">Edit</a>
+                <button class="btn btn-danger">Delete</button>
             </div>
-        }
+        </div>
     </div>
+            }     
 </div>
 }
     

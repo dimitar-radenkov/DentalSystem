@@ -3,19 +3,25 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using DentalSystem.Common.Contants;
+    using DentalSystem.Models;
     using DentalSystem.Models.BindingModels;
     using DentalSystem.Services.Contracts;
     using DentalSystem.Web.Extensions;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
+    [Authorize]
     public class AddModel : PageModel
     {
         private readonly IDoctorsService doctorsService;
         private readonly IPatientsService patientsService;
         private readonly IAppointmentsService appointmentsService;
         private readonly IManipulationsService manipulationsService;
+        private readonly UserManager<User> userManager;
 
         [BindProperty]
         public AddAppointmentBindingModel InputModel { get; set; }
@@ -24,19 +30,26 @@
             IDoctorsService doctorsService,
             IPatientsService patientsService,
             IAppointmentsService appointmentsService,
-            IManipulationsService  manipulationsService)
+            IManipulationsService  manipulationsService,
+            UserManager<User> userManager)
         {
             this.doctorsService = doctorsService;
             this.patientsService = patientsService;
             this.appointmentsService = appointmentsService;
             this.manipulationsService = manipulationsService;
-
-            this.InitializeInputModel();
+            this.userManager = userManager;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
+            this.InputModel = new AddAppointmentBindingModel()
+            {
+                DateTime = DateTime.Now,              
+            };
 
+            await this.PopulateDropDownLists();
+
+            return this.Page();
         }
 
         [ValidateAntiForgeryToken]
@@ -44,11 +57,21 @@
         {
             if (!this.ModelState.IsValid)
             {
-                this.InitializeInputModel();
+                await this.PopulateDropDownLists();
                 return this.Page();     
             }
 
-            await this.appointmentsService.AddAsync(
+            var currentUser = await this.userManager.GetUserAsync(this.User);
+            if (this.CurrentUserIsPatient() && 
+                currentUser != null &&
+                currentUser.Id != this.InputModel.PatientId)
+            {
+                await this.PopulateDropDownLists();
+                this.AddDangerMessage("You are not allowed to make appointment for somebody else.");
+                return this.Page();
+            }
+
+            var result = await this.appointmentsService.AddAsync(
                 this.InputModel.PatientId, 
                 this.InputModel.DoctorId,
                 this.InputModel.DateTime,
@@ -60,35 +83,44 @@
         }
 
 
-        private void InitializeInputModel()
+        private bool CurrentUserIsPatient() => 
+            !this.User.IsInRole(Roles.ADMINISTRATOR) && 
+            !this.User.IsInRole(Roles.OFFICE_MANAGER);
+
+        private async Task PopulateDropDownLists()
         {
-            this.InputModel = new AddAppointmentBindingModel()
-            {
-                DateTime = DateTime.Now,
-                Patients = this.patientsService
+            var currentUser = await this.userManager.GetUserAsync(this.User);
+
+            this.InputModel.Patients = this.patientsService
                 .All()
                 .Select(p => new SelectListItem
                 {
                     Text = p.Name,
-                    Value = p.Id
-                }),
+                    Value = p.Id,
+                    Disabled = this.CurrentUserIsPatient() && 
+                               currentUser?.Id != p.Id,
+                    Selected = this.CurrentUserIsPatient() && 
+                               currentUser?.Id == p.Id
+                })
+                .ToList();
 
-                        Doctors = this.doctorsService
+            this.InputModel.Doctors = this.doctorsService
                 .All()
                 .Select(d => new SelectListItem
                 {
                     Text = d.Name,
                     Value = d.Id
-                }),
+                })
+                .ToList();
 
-                        Manipulations = this.manipulationsService
+            this.InputModel.Manipulations = this.manipulationsService
                 .All()
                 .Select(m => new SelectListItem
                 {
                     Text = m.Name,
                     Value = m.Id.ToString()
                 })
-            };
+                .ToList();
         }
     }
 }
