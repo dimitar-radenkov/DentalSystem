@@ -10,8 +10,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
-    [Authorize(Roles = Roles.ADMINISTRATOR)]
-    [Authorize(Roles = Roles.OFFICE_MANAGER)]
+    [Authorize(Roles = Roles.OFFICE_MANAGER + ", " + Roles.ADMINISTRATOR )]
     public class AddModel : PageModel
     {
         private readonly IPatientsService patientsService;
@@ -37,7 +36,7 @@
                 return this.Page();
             }
 
-           var result = await this.patientsService.Add(
+           var result = await this.patientsService.AddAsync(
                 this.InputModel.Name,
                 this.InputModel.Email,
                 this.InputModel.Password,

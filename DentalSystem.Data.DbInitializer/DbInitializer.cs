@@ -35,7 +35,7 @@
             AddAdmin(context, userManager);
             AddOfficeManager(context, userManager);
             AddDoctors(context, userManager);
-            AddPatients(context, userManager, 100);
+            AddPatients(context, userManager, 1000);
             AddAppointments(context, userManager, 500);
         }
 

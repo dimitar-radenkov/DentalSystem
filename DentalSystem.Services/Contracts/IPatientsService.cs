@@ -7,8 +7,10 @@
 
     public interface IPatientsService
     {
-        IEnumerable<PatientViewModel> All();
+        Task<IEnumerable<PatientViewModel>> AllAsync();
 
-        Task<IdentityResult> Add(string name, string email, string password, string phoneNumber);
+        Task<IdentityResult> AddAsync(string name, string email, string password, string phoneNumber);
+
+        Task<PatientDetailsViewModel> GetDetailsAsync(string id);
     }
 }

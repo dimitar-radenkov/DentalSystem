@@ -91,18 +91,20 @@
         {
             var currentUser = await this.userManager.GetUserAsync(this.User);
 
-            this.InputModel.Patients = this.patientsService
-                .All()
-                .Select(p => new SelectListItem
-                {
-                    Text = p.Name,
-                    Value = p.Id,
-                    Disabled = this.CurrentUserIsPatient() && 
-                               currentUser?.Id != p.Id,
-                    Selected = this.CurrentUserIsPatient() && 
-                               currentUser?.Id == p.Id
-                })
-                .ToList();
+            this.InputModel.Patients = await this.patientsService
+                .AllAsync()
+                .ContinueWith((task) =>
+                    task.Result.Select(p => new SelectListItem
+                    {
+                        Text = p.Name,
+                        Value = p.Id,
+                        Disabled = this.CurrentUserIsPatient() &&
+                                         currentUser?.Id != p.Id,
+                        Selected = this.CurrentUserIsPatient() &&
+                                         currentUser?.Id == p.Id
+                    })
+                    .ToList());         
+
 
             this.InputModel.Doctors = this.doctorsService
                 .All()

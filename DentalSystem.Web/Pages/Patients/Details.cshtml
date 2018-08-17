@@ -1,0 +1,35 @@
+﻿@page "{id:Guid}"
+@model DentalSystem.Web.Pages.Patients.DetailsModel
+@{
+    ViewData["Title"] = "Patient Details";
+}
+
+<h2>@this.Model.PatientModel.Name</h2>
+
+
+@foreach (var appointment in this.Model.PatientModel.Appointments)
+{
+<div class="table-bordered alert-info" style="margin:5px">
+    <p>DateTime: <strong>@appointment.DateTime</strong></p>
+    <p>Doctor: <strong>@appointment.DoctorName</strong></p>
+    <p>Status: <strong>@appointment.Status</strong></p>
+
+    @if (appointment.Manupulations.Any())
+    {
+
+    <p>Manipulations:</p>
+    <ul>
+        
+        @foreach (var manipulation in appointment.Manupulations)
+        {           
+            <li>@manipulation.Name</li>     
+        }
+    </ul>
+    }
+</div>
+}
+
+
+
+
+
