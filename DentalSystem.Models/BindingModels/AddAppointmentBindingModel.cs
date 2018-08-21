@@ -21,6 +21,7 @@
         public DateTime DateTime { get; set; }
 
         [Required]
+        [Display(Name = "Select Manipulations")]
         public IList<int> SelectedManipulations { get; set; }
 
 

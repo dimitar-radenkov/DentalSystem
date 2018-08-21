@@ -6,6 +6,11 @@
 
     public class HomeController : Controller
     {
+        public IActionResult Search(string searchTerm)
+        {
+            return this.View();
+        }
+
         public IActionResult Index()
         {
             return View();

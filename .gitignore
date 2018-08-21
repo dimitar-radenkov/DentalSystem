@@ -11,3 +11,4 @@
 /DentalSystem.Web/bin
 /DentalSystem.Data.DbInitializer/obj
 /DentalSystem.Data.DbInitializer/bin
+/DentalSystem.Web/bower_components

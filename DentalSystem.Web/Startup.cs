@@ -42,6 +42,7 @@
             services.AddTransient<IPatientsService, PatientsService>();
             services.AddTransient<IAppointmentsService, AppointmentsService>();
             services.AddTransient<IManipulationsService, ManipulationService>();
+            services.AddTransient<IEmailService, RemainderEmailService>();
 
             services.AddDbContext<DentalSystemDbContext>(options =>
                 options.UseSqlServer(

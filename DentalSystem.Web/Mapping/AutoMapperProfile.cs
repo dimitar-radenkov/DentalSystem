@@ -19,6 +19,8 @@
             this.CreateMap<User, PatientViewModel>()
                 .ForMember(vm => vm.Name, cfg => cfg.MapFrom(user => user.Name));
 
+            this.CreateMap<User, UserViewModel>();
+
             this.CreateMap<ManipulationAppointment, ManipulationViewModel>()
                 .ForMember(vm => vm.Name, cfg => cfg.MapFrom(m => m.Manipulation.Name))
                 .ForMember(vm => vm.Id, cfg => cfg.MapFrom(m => m.Manipulation.Id))
